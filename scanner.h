@@ -51,7 +51,10 @@ public:
 		out << "namespace netvars {\n";
 		for (auto& netvar : sigs["netvars"]) {
 			try {
-				uintptr_t offset = GetNetvarOffset(netvar["table"].get<std::string>().c_str(), netvar["name"].get<std::string>().c_str(), clientClass);
+				int dataOffset;
+				// If prop name and name does not match there are offsets
+				dataOffset = (strcmp(netvar["prop"].get<std::string>().c_str(), netvar["name"].get<std::string>().c_str())) ? dataOffset = netvar["offset"].get<int>() : dataOffset = 0;
+				uintptr_t offset = GetNetvarOffset(netvar["table"].get<std::string>().c_str(), netvar["name"].get<std::string>().c_str(), clientClass, netvar["prop"].get<std::string>().c_str(), dataOffset);
 				out << "constexpr ::std::ptrdiff_t " << netvar["name"].get<std::string>() << " = " << hex(offset) << ";\n";
 			}
 			catch (json::type_error& ex) {
