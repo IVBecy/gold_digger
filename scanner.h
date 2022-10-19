@@ -36,7 +36,7 @@ public:
 			try {
 				json offsetArray = processOffsetArray(s, s["offsets"]);
 				DWORD offset = ReadAddress(s["module"].get<std::string>().c_str(), sigData.bytes, sigData.mask, offsetArray, s["extra"], s["relative"]);
-				out << "constexpr ::std::ptrdiff_t " << s["name"].get<std::string>() << " = " << hex(offset) << "; \n";
+				out << "constexpr uintpty" << s["name"].get<std::string>() << " = " << hex(offset) << "; \n";
 			}
 			catch (json::type_error& ex) {
 				continue;
@@ -52,12 +52,13 @@ public:
 		for (auto& netvar : sigs["netvars"]) {
 			try {
 				int dataOffset;
-				// If prop name and name does not match there are offsets
-				dataOffset = (strcmp(netvar["prop"].get<std::string>().c_str(), netvar["name"].get<std::string>().c_str())) ? dataOffset = netvar["offset"].get<int>() : dataOffset = 0;
+				bool reMatch = regexComp(netvar["prop"].get<std::string>().c_str(), arrayOffset);
+				dataOffset = (strcmp(netvar["prop"].get<std::string>().c_str(), netvar["name"].get<std::string>().c_str()) && reMatch == false) ? dataOffset = netvar["offset"].get<int>() : dataOffset = 0;
 				uintptr_t offset = GetNetvarOffset(netvar["table"].get<std::string>().c_str(), netvar["name"].get<std::string>().c_str(), clientClass, netvar["prop"].get<std::string>().c_str(), dataOffset);
 				out << "constexpr ::std::ptrdiff_t " << netvar["name"].get<std::string>() << " = " << hex(offset) << ";\n";
 			}
 			catch (json::type_error& ex) {
+				out << ex.what();
 				continue;
 			}
 		}

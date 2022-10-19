@@ -13,7 +13,6 @@ class RecvTable;
 class RecvProp
 {
 public:
-
 	const char* m_pVarName;
 	void* m_RecvType;
 	int	m_Flags;

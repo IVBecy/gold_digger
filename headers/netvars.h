@@ -7,20 +7,24 @@ Functions for dumping netvars
 #pragma once
 
 #include <windows.h>
+#include "utils.h"
 #include "source_sdk_classes.h"
+
 
 // Finding Offsets
 uintptr_t GetOffset(RecvTable* table,const char* tableName,const char* netvarName, const char* propName, int dataOffset){
 	for (int i = 0; i < table->m_nProps; i++) {
 		RecvProp prop = table->m_pProps[i];
 
-		if (!strcmp(prop.m_pVarName,netvarName)) {
+		// For: propName == varName
+		if (!strcmp(prop.m_pVarName, netvarName)) {
 			return prop.m_Offset;
 		}
+		// For: propName != varName
 		else if (!strcmp(propName, prop.m_pVarName)) {
 			return dataOffset + prop.m_Offset;
 		}
-
+		// If another table in the current one
 		if(prop.m_pDataTable) {
 			uintptr_t offset = GetOffset(prop.m_pDataTable,tableName,netvarName, propName,dataOffset);
 

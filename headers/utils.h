@@ -8,9 +8,17 @@ All the utility functions
 #include <sstream>
 #include <fstream>
 #include <filesystem>
+#include <regex>
 #include "json.hpp"
 
 using json = nlohmann::json;
+
+// Regex checker
+std::regex const arrayOffset{ R"([m][_][a-zA-Z]*\[.*?\])" };
+bool regexComp(const char* valueToScan, std::regex pattern) {
+	bool match = std::regex_match(valueToScan, pattern);
+	return match;
+}
 
 // File locations
 struct paths {
