@@ -27,7 +27,14 @@ public:
 	json sigs;
 	std::ofstream out;
 	ClientClass* clientClass;
-	// Signature scacning
+
+	// File info and headers
+	void fileStart() {
+		out << "#pragma once\n#include <cstdint>\n";
+		out << "constexpr ::std::int64_t timestamp = " << std::time(NULL) << "\n\n";
+	}
+
+	// Signature scanning
 	void Signatures() {
 		out << "// Signatures\n";
 		out << "namespace signatures {\n";
@@ -86,6 +93,7 @@ void Scanner() {
 	scannerClass scanOps(readFromJsonFile(p.config.string().c_str()), std::ofstream(p.outFile.string().c_str()), clientClass);
 
 	// Run the scan for offsets
+	scanOps.fileStart();
 	scanOps.Signatures();
 	scanOps.Netvars();
 	scanOps.cleanUp();
