@@ -31,7 +31,7 @@ public:
 	// File info and headers
 	void fileStart() {
 		out << "#pragma once\n#include <cstdint>\n";
-		out << "constexpr ::std::int64_t timestamp = " << std::time(NULL) << "\n\n";
+		out << "constexpr ::std::int64_t timestamp = " << std::time(NULL) << ";\n\n";
 	}
 
 	// Signature scanning
@@ -43,7 +43,7 @@ public:
 			try {
 				json offsetArray = processOffsetArray(s, s["offsets"]);
 				DWORD offset = ReadAddress(s["module"].get<std::string>().c_str(), sigData.bytes, sigData.mask, offsetArray, s["extra"], s["relative"]);
-				out << "constexpr uintpty" << s["name"].get<std::string>() << " = " << hex(offset) << "; \n";
+				out << "constexpr ::std::ptrdiff_t " << s["name"].get<std::string>() << " = " << hex(offset) << "; \n";
 			}
 			catch (json::type_error& ex) {
 				continue;
