@@ -4,7 +4,7 @@
 
 // Main opeartion thread
 DWORD WINAPI mainThread(HMODULE hModule) {
-    Scanner();
+    Scanner(); // --> Scanning
     FreeConsole();
     FreeLibraryAndExitThread(hModule, 0);
     return 0;

@@ -5,7 +5,8 @@ https://github.com/ValveSoftware/source-sdk-2013/tree/master/mp/src/public/dt_re
 
 */
 #include <windows.h>
-
+#ifndef  SOURCE_SDK_CLASSES
+#define SOURCE_SDK_CLASSES
 
 class RecvTable;
 
@@ -85,3 +86,4 @@ public:
 
 	virtual ClientClass* GetAllClasses() = 0;
 };
+#endif // ! SOURCE_SDK_CLASSES

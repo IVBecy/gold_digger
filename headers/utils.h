@@ -14,8 +14,8 @@ All the utility functions
 using json = nlohmann::json;
 
 // Regex checker
-std::regex const arrayOffset{ R"([m][_][a-zA-Z]*\[.*?\])" };
-bool regexComp(const char* valueToScan, std::regex pattern) {
+inline std::regex const arrayOffset{ R"([m][_][a-zA-Z]*\[.*?\])" };
+inline bool regexComp(const char* valueToScan, std::regex pattern) {
 	bool match = std::regex_match(valueToScan, pattern);
 	return match;
 }
@@ -26,7 +26,7 @@ struct paths {
 	std::filesystem::path config;
 	std::filesystem::path outFile;
 };
-paths pathLocator() {
+inline paths pathLocator() {
 	paths p = { };
 	p.pwd = std::filesystem::current_path();
 	p.config = p.pwd / "config.json";
@@ -36,7 +36,7 @@ paths pathLocator() {
 
 
 // Read from JSON file
-json readFromJsonFile(const char* fileName) {
+inline json readFromJsonFile(const char* fileName) {
 	json sigs;
 	try {
 		std::ifstream f(fileName);
@@ -50,7 +50,7 @@ json readFromJsonFile(const char* fileName) {
 };
 
 // Convert mem to hex
-std::string hex(uintptr_t offset) {
+inline std::string hex(uintptr_t offset) {
 	std::ostringstream ss;
 	ss << std::hex << "0x" << std::uppercase << offset;
 	std::string result = ss.str();
